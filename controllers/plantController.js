@@ -66,5 +66,41 @@ const updatePlantById = asyncHandler(async (req, res) => {
   }
 });
 
-export { createPlant, getAllPlants, getPlantById, updatePlantById };
+const removePlantById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedPlant = await Plant.findByIdAndUpdate(
+      id,
+      { isActive: false }, // Set isVisible to false to hide the review
+      { new: true }
+    );
+
+    if (deletedPlant) {
+      res.status(200).json({ message: 'Plant deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Plant not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting plant by ID:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+const getPlantsBySeller = async (req, res) => {
+  try {
+    // Assuming req.user is set by your authentication middleware and contains information about the logged-in user
+    const { _id: seller } = req.user;
+
+    const plants = await Plant.find({ seller });
+
+    res.status(200).json(plants);
+  } catch (error) {
+    console.error('Error getting plants by seller:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+export { createPlant, getAllPlants, getPlantById, updatePlantById, removePlantById, getPlantsBySeller };
 
