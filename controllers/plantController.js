@@ -1,5 +1,5 @@
-import asyncHandler from 'express-async-handler';
-import Plant from '../models/plantModel.js';
+import asyncHandler from "express-async-handler";
+import Plant from "../models/plantModel.js";
 
 // Plant functions
 
@@ -7,7 +7,7 @@ import Plant from '../models/plantModel.js';
 //@route POST /api/plants
 //@access private
 const createPlant = asyncHandler(async (req, res) => {
-  const { name, quantity, description, image, startingBid} = req.body;
+  const { name, quantity, description, image, startingBid } = req.body;
   const { _id: seller } = req.user;
 
   const newPlant = await Plant.create({
@@ -42,7 +42,7 @@ const getPlantById = asyncHandler(async (req, res) => {
   if (plant) {
     res.status(200).json(plant);
   } else {
-    res.status(404).json({ message: 'Plant not found' });
+    res.status(404).json({ message: "Plant not found" });
   }
 });
 
@@ -62,45 +62,55 @@ const updatePlantById = asyncHandler(async (req, res) => {
   if (updatedPlant) {
     res.status(200).json(updatedPlant);
   } else {
-    res.status(404).json({ message: 'Plant not found' });
+    res.status(404).json({ message: "Plant not found" });
   }
 });
 
+//@desc Remove a plant by ID
+//@route PUT /api/plants/:id
+//@access private
 const removePlantById = async (req, res) => {
   const { id } = req.params;
 
   try {
     const deletedPlant = await Plant.findByIdAndUpdate(
       id,
-      { isActive: false }, // Set isVisible to false to hide the review
+      { isActive: false },
       { new: true }
     );
 
     if (deletedPlant) {
-      res.status(200).json({ message: 'Plant deleted successfully' });
+      res.status(200).json({ message: "Plant deleted successfully" });
     } else {
-      res.status(404).json({ message: 'Plant not found' });
+      res.status(404).json({ message: "Plant not found" });
     }
   } catch (error) {
-    console.error('Error deleting plant by ID:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error deleting plant by ID:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
+//@desc Get the plants of a user
+//@route GET /api/plants/seller/plants
+//@access private
 const getPlantsBySeller = async (req, res) => {
   try {
-    // Assuming req.user is set by your authentication middleware and contains information about the logged-in user
     const { _id: seller } = req.user;
 
     const plants = await Plant.find({ seller });
 
     res.status(200).json(plants);
   } catch (error) {
-    console.error('Error getting plants by seller:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error getting plants by seller:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-
-export { createPlant, getAllPlants, getPlantById, updatePlantById, removePlantById, getPlantsBySeller };
-
+export {
+  createPlant,
+  getAllPlants,
+  getPlantById,
+  updatePlantById,
+  removePlantById,
+  getPlantsBySeller,
+};

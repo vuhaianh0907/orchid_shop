@@ -4,15 +4,10 @@ import { createReview, updateReviewById, hideReviewById, getReviewsByPlantId } f
 
 const router = express.Router();
 
-// Create a review for a plant
-router.post('/reviews', protect, createReview);
 
-// Update a review by ID
+router.post('/reviews/:plantId', protect, createReview);
 router.put('/reviews/:id', protect, updateReviewById);
-
-// Hide a review by ID (staff and manager roles only)
 router.put('/reviews/:id/hide', protect, hideReviewById);
-
-router.get('/reviews/plant/:plantId', getReviewsByPlantId);
+router.get('/reviews/:plantId', getReviewsByPlantId);
 
 export default router;
