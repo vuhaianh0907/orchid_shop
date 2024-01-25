@@ -28,11 +28,9 @@ const plantSchema = new mongoose.Schema({
   },
   isAvailableForAuction: {
     type: Boolean,
-    default: false,
   },
   isActive: {
     type: Boolean,
-    default: true,
   },
   averageRating: {
     type: Number,

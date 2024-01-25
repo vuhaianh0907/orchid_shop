@@ -67,23 +67,43 @@ const updatePlantById = asyncHandler(async (req, res) => {
 });
 
 //@desc Remove a plant by ID
-//@route PUT /api/plants/:id
+//@route PUT /api/plants/remove/:id
 //@access private
 const removePlantById = async (req, res) => {
-  const { id } = req.params;
+  const plantId = req.params.id;
 
   try {
+    /*
     const deletedPlant = await Plant.findByIdAndUpdate(
       id,
       { isActive: false },
       { new: true }
     );
-
+*/
+/*
     if (deletedPlant) {
       res.status(200).json({ message: "Plant deleted successfully" });
     } else {
       res.status(404).json({ message: "Plant not found" });
     }
+    */
+    const plantToRemove = await Plant.findById(plantId);
+
+    if (!plantToRemove) {
+      res.status(404);
+      throw new Error("Plant not found");
+    }
+
+    plantToRemove.isActive = false;
+
+    const updatedPlant = await plantToRemove.save();
+    res.status(200).json({
+      _id: updatedPlant._id,
+      name: updatedPlant.name,
+      quantity: updatedPlant.quantity,
+      description: updatedPlant.description,
+      isActive: updatedPlant.isActive,
+    });
   } catch (error) {
     console.error("Error deleting plant by ID:", error);
     res.status(500).json({ message: "Internal Server Error" });
