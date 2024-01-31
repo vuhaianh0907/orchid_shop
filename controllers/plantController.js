@@ -51,11 +51,10 @@ const getPlantById = asyncHandler(async (req, res) => {
 //@access private
 const updatePlantById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { _id: seller } = req.user;
 
   const updatedPlant = await Plant.findByIdAndUpdate(
     id,
-    { ...req.body, seller },
+    req.body,
     { new: true }
   );
 

@@ -95,7 +95,7 @@ const hideReviewById = async (req, res) => {
 const getReviewsByPlantId = async (req, res) => {
   const { plantId } = req.params;
   try {
-    const reviews = await Review.find({ plantId });
+    const reviews = await Review.find({ plantId, isVisible: true });
 
     res.status(200).json(reviews);
   } catch (error) {
