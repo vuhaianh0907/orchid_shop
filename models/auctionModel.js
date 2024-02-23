@@ -9,59 +9,43 @@ const auctionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  plants: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Plant",
-      required: true,
-    },
-  ],
-  seller: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-    },
-  ],
-  participants: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Account",
-      required: true,
-    },
-  ],
-  startDate: {
+  startingDate: {
     type: Date,
     required: true,
   },
-  endDate: {
+  endingDate: {
     type: Date,
-    required: true,
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Account",
     required: true,
   },
   staff: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Account",
+    ref: "Account", 
     required: true,
   },
-  bids: [
-    {
-      bidder: { type: mongoose.Schema.ObjectId, ref: "Account" },
-      bid: Number,
-      time: Date,
-      count: { type: Number, default: 1 },
-    },
-  ],
   status: {
     type: String,
-    enum: [ cAuctionStatus.Prepare, cAuctionStatus.MainTime, cAuctionStatus.ExtraTime, cAuctionStatus.Closed ],
-    default: cAuctionStatus.Prepare
+    enum: ["preparing", "on-going", "ended"],
+    default: "preparing",
   },
-  timeDuration: { type: Number, default: 0 }, // minutes
-  winner: { type: mongoose.Schema.ObjectId, ref: 'User' },
+  plants: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plant", 
+    },
+  ],
+  currentPlantIndex: {
+    type: Number,
+    default: 0,
+  },
+  currentBid: {
+    type: Number,
+    default: 0,
+  },
+  currentHighestBidder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Account", 
+  },
+  startTime: Date,
 });
 
 const Auction = mongoose.model("Auction", auctionSchema);
