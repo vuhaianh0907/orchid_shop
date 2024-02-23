@@ -9,7 +9,7 @@ router.post('/plants/', protect, createPlant);
 router.get('/plants/', getAllPlants);
 router.get('/plants/:id', getPlantById);
 router.put('/plants/:id', protect, updatePlantById);
-router.put('/plants/remove/:id', protect, removePlantById);
-router.get('/plants/seller/plants', protect, getPlantsBySeller);
+router.put('/plants/:id/remove', protect, removePlantById);
+router.get('/seller/plants', protect, getPlantsBySeller);
 
 export default router;

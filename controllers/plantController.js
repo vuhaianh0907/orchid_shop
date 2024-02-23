@@ -110,7 +110,7 @@ const removePlantById = async (req, res) => {
 };
 
 //@desc Get the plants of a user
-//@route GET /api/plants/seller/plants
+//@route GET /api/seller/plants
 //@access private
 const getPlantsBySeller = async (req, res) => {
   try {

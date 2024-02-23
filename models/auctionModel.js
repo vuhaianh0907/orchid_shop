@@ -16,6 +16,12 @@ const auctionSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  seller: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
+  ],
   participants: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -43,10 +49,19 @@ const auctionSchema = new mongoose.Schema({
   },
   bids: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Bid",
+      bidder: { type: mongoose.Schema.ObjectId, ref: "Account" },
+      bid: Number,
+      time: Date,
+      count: { type: Number, default: 1 },
     },
   ],
+  status: {
+    type: String,
+    enum: [ cAuctionStatus.Prepare, cAuctionStatus.MainTime, cAuctionStatus.ExtraTime, cAuctionStatus.Closed ],
+    default: cAuctionStatus.Prepare
+  },
+  timeDuration: { type: Number, default: 0 }, // minutes
+  winner: { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
 
 const Auction = mongoose.model("Auction", auctionSchema);
