@@ -104,6 +104,29 @@ const getReviewsByPlantId = async (req, res) => {
   }
 };
 
+//@desc Get reviews of a plant
+//@route GET /api/reviews
+//@access public
+const getAllReviewsWithPlants = async (req, res) => {
+  try {
+    const reviewsWithPlants = await Review.find({ isVisible: true }).populate('plantId');
+    
+    const reviewsData = reviewsWithPlants.map(review => ({
+      feedback: review.feedback,
+      rating: review.rating,
+      plant: {
+        plantId: review.plantId,
+      }
+    }));
+
+    res.status(200).json(reviewsData);
+  } catch (error) {
+    console.error("Error getting all reviews with plants:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
 const updateAverageRating = async (plantId) => {
   try {
     const reviews = await Review.find({ plantId });
@@ -115,4 +138,4 @@ const updateAverageRating = async (plantId) => {
   }
 };
 
-export { createReview, updateReviewById, hideReviewById, getReviewsByPlantId };
+export { createReview, updateReviewById, hideReviewById, getReviewsByPlantId, getAllReviewsWithPlants };
