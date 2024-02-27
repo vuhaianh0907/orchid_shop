@@ -24,7 +24,7 @@ const auctionSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["preparing", "on-going", "ended"],
+    enum: ["preparing", "on-going", "ended", "cancelled"],
     default: "preparing",
   },
   plants: [
