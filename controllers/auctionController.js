@@ -3,6 +3,10 @@ import Auction from "../models/auctionModel";
 
 const createAuction = asyncHandler(async (req, res) => {
   try {
+    if (req.user.role !== 'manager') {
+      res.status(401);
+      throw new Error('Not authorized as a manager');
+    }
     const { title, description, startingDate, endingDate, staffId } = req.body;
     const newAuction = new Auction({
       title: title,
@@ -79,4 +83,104 @@ const startAuction = asyncHandler(async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+const endAuction = asyncHandler(async (req, res, next) => {
+  const { auctionId } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const auction = await Auction.findById(auctionId);
+
+    if (!auction) {
+      res.status(404);
+      throw new Error('Auction not found');
+    }
+    if (auction.staff.toString() !== userId) {
+      res.status(403);
+      throw new Error('You are not authorized to end the auction');
+    }
+    if (auction.status !== 'on-going') {
+      res.status(400);
+      throw new Error('Auction is not currently on-going');
+    }
+    auction.status = 'ended';
+    auction.endTime = new Date();
+    const savedAuction = await auction.save();
+
+    res.status(200).json(savedAuction);
+  } catch (error) {
+    next(error);
+  }
+});
+
+const getAuctionDetails = asyncHandler(async (req, res, next) => {
+  const { auctionId } = req.params;
+
+  try {
+    const auction = await Auction.findById(auctionId);
+
+    if (!auction) {
+      res.status(404);
+      throw new Error('Auction not found');
+    }
+
+    res.status(200).json(auction);
+  } catch (error) {
+    next(error);
+  }
+});
+
+const getAllAuctions = asyncHandler(async (req, res, next) => {
+  try {
+    const auctions = await Auction.find({});
+    res.status(200).json(auctions);
+  } catch (error) {
+    next(error);
+  }
+});
+
+const getMyBids = asyncHandler(async (req, res, next) => {
+  const userId = req.user.id;
+
+  try {
+    const bids = await Bid.find({ user: userId });
+
+    if (!bids) {
+      res.status(404);
+      throw new Error('No bids found for this user');
+    }
+
+    res.status(200).json(bids);
+  } catch (error) {
+    next(error);
+  }
+});
+
+const cancelAuction = asyncHandler(async (req, res, next) => {
+  const { auctionId } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const auction = await Auction.findById(auctionId);
+
+    if (!auction) {
+      res.status(404);
+      throw new Error('Auction not found');
+    }
+    if (auction.staff.toString() !== userId) {
+      res.status(403);
+      throw new Error('You are not authorized to cancel the auction');
+    }
+    if (auction.status !== 'on-going' && auction.status !== 'preparing') {
+      res.status(400);
+      throw new Error('Auction is not in a state that can be cancelled');
+    }
+    auction.status = 'cancelled';
+    const savedAuction = await auction.save();
+
+    res.status(200).json(savedAuction);
+  } catch (error) {
+    next(error);
+  }
 });

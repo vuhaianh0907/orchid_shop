@@ -26,7 +26,7 @@ router
 
 router.post("/accounts/create-staff", protect, admin, createStaffAccount);
 router.post("/accounts/create-manager", protect, admin, createManagerAccount);
-router.post("/accounts/new-admin", registerAdmin);
+router.post("/accounts/new-admin",protect, registerAdmin);
 router.put("/accounts/deactivate/:userId", protect, admin, deactivateAccount);
 router.put("/accounts/reactivate/:userId", protect, admin, reactivateAccount);
 
