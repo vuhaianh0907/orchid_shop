@@ -45,6 +45,11 @@ const auctionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Account", 
   },
+  plantsHighestBids: {
+    type: Map,
+    of: Number,
+    default: {}
+  },
   startTime: Date,
 });
 
