@@ -1,6 +1,10 @@
 import asyncHandler from "express-async-handler";
 import Auction from "../models/auctionModel";
+import Bid from "../models/bidModel";
 
+//@desc Create a new auction
+//@route POST /api/auctions
+//@access private
 const createAuction = asyncHandler(async (req, res) => {
   try {
     if (req.user.role !== 'manager') {
@@ -22,6 +26,9 @@ const createAuction = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc Sign up plants for auction
+//@route POST /api/auctions/signup
+//@access private
 const signUpPlantsForAuction = asyncHandler(async (req, res, next) => {
   const { auctionId, plantIds } = req.body;
 
@@ -56,6 +63,9 @@ const signUpPlantsForAuction = asyncHandler(async (req, res, next) => {
   }
 });
 
+//@desc Start an auction
+//@route PUT /api/auctions/start
+//@access private
 const startAuction = asyncHandler(async (req, res, next) => {
     const { auctionId } = req.body;
     const userId = req.user.id;
@@ -85,6 +95,9 @@ const startAuction = asyncHandler(async (req, res, next) => {
     }
 });
 
+//@desc End an auction
+//@route PUT /api/auctions/end
+//@access private
 const endAuction = asyncHandler(async (req, res, next) => {
   const { auctionId } = req.body;
   const userId = req.user.id;
@@ -114,6 +127,9 @@ const endAuction = asyncHandler(async (req, res, next) => {
   }
 });
 
+//@desc Get detail of an auction
+//@route GET /api/auctions/:auctionId
+//@access private
 const getAuctionDetails = asyncHandler(async (req, res, next) => {
   const { auctionId } = req.params;
 
@@ -131,6 +147,9 @@ const getAuctionDetails = asyncHandler(async (req, res, next) => {
   }
 });
 
+//@desc Get all auction
+//@route GET /api/auctions
+//@access private
 const getAllAuctions = asyncHandler(async (req, res, next) => {
   try {
     const auctions = await Auction.find({});
@@ -140,6 +159,9 @@ const getAllAuctions = asyncHandler(async (req, res, next) => {
   }
 });
 
+//@desc Get all bids of user
+//@route GET /api/bids
+//@access private
 const getMyBids = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
 
@@ -157,6 +179,9 @@ const getMyBids = asyncHandler(async (req, res, next) => {
   }
 });
 
+//@desc Cancel an auction
+//@route PUT /api/auctions/cancel
+//@access private
 const cancelAuction = asyncHandler(async (req, res, next) => {
   const { auctionId } = req.body;
   const userId = req.user.id;
@@ -184,3 +209,14 @@ const cancelAuction = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
+
+export {
+  createAuction,
+  signUpPlantsForAuction,
+  startAuction,
+  endAuction,
+  getAuctionDetails,
+  getAllAuctions,
+  getMyBids,
+  cancelAuction,
+};
