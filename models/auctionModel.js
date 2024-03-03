@@ -24,7 +24,7 @@ const auctionSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["preparing", "on-going", "ended"],
+    enum: ["preparing", "on-going", "ended", "cancelled"],
     default: "preparing",
   },
   plants: [
@@ -44,6 +44,11 @@ const auctionSchema = new mongoose.Schema({
   currentHighestBidder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Account", 
+  },
+  plantsHighestBids: {
+    type: Map,
+    of: Number,
+    default: {}
   },
   startTime: Date,
 });
