@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Account", required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Account",
+    required: true,
+  },
   plantId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Plant",
@@ -12,7 +16,7 @@ const orderSchema = new mongoose.Schema({
   receiveAddress: { type: String, required: true },
   status: {
     type: String,
-    enum: ["pending", "shipped", "delivered"],
+    enum: ["pending", "shipped", "delivered", "cancelled", "returned", "refunded", "completed", "failed", "processing", "packed"],
     default: "pending",
   },
 });

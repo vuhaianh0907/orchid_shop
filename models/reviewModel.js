@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const reviewSchema = new mongoose.Schema(
     },
     rating: { type: Number, required: true },
     feedback: { type: String },
-    isVisible: {type: Boolean}
+    isVisible: { type: Boolean },
   },
   {
     timestamps: true,
