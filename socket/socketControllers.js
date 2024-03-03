@@ -1,11 +1,11 @@
-import socketIO from "socket.io";
-import Auction from "../models/auctionModel";
-import Bid from "../models/bidModel";
+import {Server} from "socket.io";
+import Auction from "../models/auctionModel.js";
+import Bid from "../models/bidModel.js";
 
 let io;
 
 export function startSocket(server) {
-  io = socketIO(server);
+  io = new Server(server);
 
   io.on("connection", (socket) => {
     console.log("A user connected");
