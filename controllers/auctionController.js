@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Auction from "../models/auctionModel";
 import Bid from "../models/bidModel";
+import Plant from "../models/plantModel";
 
 //@desc Create a new auction
 //@route POST /api/auctions
