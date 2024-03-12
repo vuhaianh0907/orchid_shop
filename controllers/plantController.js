@@ -72,20 +72,6 @@ const removePlantById = async (req, res) => {
   const plantId = req.params.id;
 
   try {
-    /*
-    const deletedPlant = await Plant.findByIdAndUpdate(
-      id,
-      { isActive: false },
-      { new: true }
-    );
-*/
-/*
-    if (deletedPlant) {
-      res.status(200).json({ message: "Plant deleted successfully" });
-    } else {
-      res.status(404).json({ message: "Plant not found" });
-    }
-    */
     const plantToRemove = await Plant.findById(plantId);
 
     if (!plantToRemove) {
@@ -125,6 +111,16 @@ const getPlantsBySeller = async (req, res) => {
   }
 };
 
+//@desc Get plants by name
+//@route GET /api/plants/search/:name
+//@access public
+const getPlantsByName = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+  const regex = new RegExp(name, 'i');
+  const plants = await Plant.find({ name: regex });
+  res.status(200).json(plants);
+});
+
 export {
   createPlant,
   getAllPlants,
@@ -132,4 +128,5 @@ export {
   updatePlantById,
   removePlantById,
   getPlantsBySeller,
+  getPlantsByName
 };
