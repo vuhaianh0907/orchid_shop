@@ -6,8 +6,8 @@ const router = express.Router();
 // Define your routes here
 router.get('/order/', getOrders); //checked
 router.get('/order/:id', getOrderById); //checked
-router.post('/order/:plantId', createOrder); //checked
-router.put('/order/:id', updateOrderById);
-router.put('/order/remove/:id', deleteOrderById );
+router.post('/order/:plantId', protect, createOrder); //checked
+router.put('/order/:id', protect, updateOrderById);
+router.put('/order/remove/:id', protect, deleteOrderById );
 
 export default router;
