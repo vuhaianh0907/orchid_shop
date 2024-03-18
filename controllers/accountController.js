@@ -284,6 +284,14 @@
     }
   });
 
+//@desc Get all account
+//@route GET /api/accounts
+//@access public
+const getAllAccounts = asyncHandler(async (req, res) => {
+  const accounts = await Account.find();
+  res.status(200).json(accounts);
+});
+
   export {
     authUser,
     registerUser,
@@ -294,5 +302,6 @@
     createStaffAccount,
     deactivateAccount,
     registerAdmin,
-    reactivateAccount
+    reactivateAccount,
+    getAllAccounts
   };
