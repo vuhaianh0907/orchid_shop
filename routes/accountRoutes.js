@@ -9,7 +9,8 @@ import {
   createStaffAccount,
   deactivateAccount,
   registerAdmin,
-  reactivateAccount
+  reactivateAccount,
+  getAllAccounts
 } from "../controllers/accountController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import {admin} from '../middlewares/adminMiddleware.js'
@@ -29,5 +30,6 @@ router.post("/accounts/create-manager", protect, admin, createManagerAccount);
 router.post("/accounts/new-admin",protect, registerAdmin);
 router.put("/accounts/deactivate/:userId", protect, admin, deactivateAccount);
 router.put("/accounts/reactivate/:userId", protect, admin, reactivateAccount);
+router.get("/accounts", protect, admin, getAllAccounts)
 
 export default router;
