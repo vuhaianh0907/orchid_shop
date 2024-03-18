@@ -2,6 +2,7 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Layout } from 'antd';
 import routes from './routes/route';
+import HomePage from './user/HomePage';
 
 const { Header, Footer } = Layout;
 

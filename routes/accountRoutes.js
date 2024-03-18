@@ -10,10 +10,10 @@ import {
   deactivateAccount,
   registerAdmin,
   reactivateAccount,
-  getAllAccounts
+  getAllAccounts,
 } from "../controllers/accountController.js";
 import { protect } from "../middlewares/authMiddleware.js";
-import {admin} from '../middlewares/adminMiddleware.js'
+import { admin } from "../middlewares/adminMiddleware.js";
 
 const router = express.Router();
 
@@ -27,9 +27,9 @@ router
 
 router.post("/accounts/create-staff", protect, admin, createStaffAccount);
 router.post("/accounts/create-manager", protect, admin, createManagerAccount);
-router.post("/accounts/new-admin",protect, registerAdmin);
+router.post("/accounts/new-admin", protect, registerAdmin);
 router.put("/accounts/deactivate/:userId", protect, admin, deactivateAccount);
 router.put("/accounts/reactivate/:userId", protect, admin, reactivateAccount);
-router.get("/accounts", protect, admin, getAllAccounts)
+router.get("/accounts", getAllAccounts);
 
 export default router;

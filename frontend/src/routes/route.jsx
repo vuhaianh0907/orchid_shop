@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import Forbidden from '../screens/Forbidden';
+import HomePage from '../user/HomePage';
 // Import other necessary screens
 
 const PrivateRoute = ({ element: Element, roles, ...rest }) => {
@@ -33,6 +34,7 @@ const routes = () => {
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/forbidden" element={<Forbidden />} />
+      <Route path="/home" element={<HomePage />} />
       {/* Add other public routes */}
 
       {/* Private routes */}
